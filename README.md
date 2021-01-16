@@ -14,7 +14,7 @@
 * Extract [Microdata](https://en.wikipedia.org/wiki/Microdata_(HTML)).
 * Extract [Opengraph](https://en.wikipedia.org/wiki/Facebook_Platform#Open_Graph_protocol).
 * Extract [RDFa](https://en.wikipedia.org/wiki/RDFa).
-* Extract images from an entire page or from an article.
+* Extract images from an entire page or from a page article.
 
 ### Quick start:
 
