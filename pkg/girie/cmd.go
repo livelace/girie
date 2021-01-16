@@ -215,8 +215,10 @@ func RunApp() {
 	log.Infof("listen %s", config.GetString(core.VIPER_DEFAULT_LISTEN))
 
 	err := router.Run(config.GetString(core.VIPER_DEFAULT_LISTEN))
-	if err == nil {
-		log.Errorf("cannot start %s: %s", core.APP_NAME, err)
+	if err != nil {
+		log.WithFields(log.Fields{
+			"error": err,
+		}).Errorf("start error")
 		os.Exit(1)
 	}
 }
