@@ -28,7 +28,7 @@ INFO[16.01.2021 11:38:59.102] listen :8080
 # execute query
 user@localhost ~ $ docker exec girie curl --location --request POST 'http://127.0.0.1:8080/?retry=3&timeout=3' \
 --header 'Content-Type: application/json' \
---data-raw '{"query":"{data(url:\"https://iz.ru/1091344/2020-11-24/effektivnost-vaktciny-sputnik-v-prevysila-95\"){html,url,jsonld,microdata,opengraph,rdfa,article{images{alt,src},text},page{images{alt,src},text}}}"}' | jq
+--data-raw '{"query":"{data(url:\"https://iz.ru/1091344/2020-11-24/effektivnost-vaktciny-sputnik-v-prevysila-95\"){html,url,jsonld,microdata,opengraph,rdfa,article{images{alt,src},text},page{images{alt,src},text}}}"}' | jq  
 ```
 
 ### Config example:
