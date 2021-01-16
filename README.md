@@ -1,6 +1,6 @@
 # girie
 
-***girie*** ("go" + "kirie") is a tool for data/metadata extraction from HTML or URL.
+***girie*** ("go" + "kirie") is a tool for data/metadata extraction from web pages.
 
 ### Main goal:
 
