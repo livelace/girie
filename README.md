@@ -36,7 +36,7 @@ user@localhost ~ $ docker exec girie curl --location --request POST 'http://127.
 ```toml
 [default]
 
-# Options priority (top -> down):
+# Options priority order (top -> down):
 # 1. Configuration file.
 # 2. Environment variables.
 # 3. Query options.
