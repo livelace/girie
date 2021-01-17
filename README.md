@@ -25,12 +25,14 @@ INFO[16.01.2021 11:38:59.101] girie v1.2.0
 WARN[16.01.2021 11:38:59.102] config error       error="Config File \"config.toml\" Not Found in \"[/etc/girie]\""
 INFO[16.01.2021 11:38:59.102] listen :8080 
 
-# ------------
+SERVER=`docker inspect -f "{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}" girie`
+
+
 # GET + URL:
-user@localhost ~ $ docker exec girie curl -L -g --request GET \
+user@localhost ~ $ docker exec girie curl -s -L -g --request GET \
 'http://127.0.0.1:8080/api/?query={data(url:"https://iz.ru/1091344/2020-11-24/effektivnost-vaktciny-sputnik-v-prevysila-95"){article{text_spans_block}}}' | jq  
 
-# ------------
+
 # POST + URL:
 QUERY=`cat << EOF
 {
@@ -47,13 +49,13 @@ EOF
 
 QUERY=`echo $QUERY | tr -d " \n"`
 
-user@localhost ~ $ docker exec girie curl -L -X POST 'http://127.0.0.1:8080/api/?retry=3&timeout=3' \
---header 'Content-Type: application/json' \
+curl -s -L -X POST "http://${SERVER}:8080/api/?retry=3&timeout=3" \
+--header "Content-Type: application/json" \
 --data-raw "${QUERY}" | jq  
 
-# ------------
+
+
 # POST + HTML:
-SERVER=`docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' girie`
 BASE64=`curl -s "https://iz.ru/1091344/2020-11-24/effektivnost-vaktciny-sputnik-v-prevysila-95" | base64 -w0`
 
 QUERY=`cat << EOF
@@ -85,8 +87,8 @@ EOF
 
 echo $QUERY | tr -d " \n" > "/tmp/query.json"
 
-curl -L -X POST "http://${SERVER}:8080/api/?retry=3&timeout=3" \
---header 'Content-Type: application/json' \
+curl -s -L -X POST "http://${SERVER}:8080/api/?retry=3&timeout=3" \
+--header "Content-Type: application/json" \
 --data "@/tmp/query.json" | jq  
 ```
 
