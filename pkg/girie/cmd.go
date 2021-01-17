@@ -88,7 +88,6 @@ func executeQuery(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, e)
 		return
 	}
-	htmlOrigin := html
 
 	// Exit if no source.
 	if len(html) == 0 && len(url) == 0 {
@@ -186,7 +185,7 @@ func executeQuery(c *gin.Context) {
 
 	// Fill context data for invocations from other functions .
 	data := core.Data{
-		HTML: htmlOrigin,
+		HTML: html,
 		URL:  url,
 
 		Article: core.Article{

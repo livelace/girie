@@ -33,7 +33,7 @@ var articleType = graphql.NewObject(graphql.ObjectConfig{
 
 				for _, v := range strings.Split(p.Context.Value("data").(Data).Article.Text, "\n") {
 					if len(strings.Split(v, " ")) >= DEFAULT_SPAN_THRESHOLD {
-						spans = append(spans, v)
+						spans = append(spans, strings.TrimSpace(v))
 					}
 				}
 
@@ -47,7 +47,7 @@ var articleType = graphql.NewObject(graphql.ObjectConfig{
 
 				for _, v := range strings.Split(p.Context.Value("data").(Data).Article.Text, "\n") {
 					if len(strings.Split(v, " ")) >= DEFAULT_SPAN_THRESHOLD {
-						block += v + "\n"
+						block += strings.TrimSpace(v) + "\n"
 					}
 				}
 
@@ -61,11 +61,11 @@ var articleType = graphql.NewObject(graphql.ObjectConfig{
 
 				for _, v := range strings.Split(p.Context.Value("data").(Data).Article.Text, "\n") {
 					if len(strings.Split(v, " ")) >= DEFAULT_SPAN_THRESHOLD {
-						block += v
+						block += strings.TrimSpace(v) + " "
 					}
 				}
 
-				return block, nil
+				return strings.TrimSpace(block), nil
 			},
 		},
 	},
