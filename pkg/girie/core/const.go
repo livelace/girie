@@ -9,6 +9,7 @@ const (
 	DEFAULT_LISTEN          = ":8080"
 	DEFAULT_PROXY           = ""
 	DEFAULT_RETRY           = 2
+	DEFAULT_SPAN_THRESHOLD  = 10
 	DEFAULT_TIMEOUT         = 3
 	DEFAULT_USER_AGENT      = APP_NAME + " " + APP_VERSION
 

@@ -32,12 +32,40 @@ var articleType = graphql.NewObject(graphql.ObjectConfig{
 				spans := make([]string, 0)
 
 				for _, v := range strings.Split(p.Context.Value("data").(Data).Article.Text, "\n") {
-					if len(strings.Split(v, " ")) >= 10 {
+					if len(strings.Split(v, " ")) >= DEFAULT_SPAN_THRESHOLD {
 						spans = append(spans, v)
 					}
 				}
 
 				return spans, nil
+			},
+		},
+		"text_spans_append": &graphql.Field{
+			Type: graphql.String,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				block := ""
+
+				for _, v := range strings.Split(p.Context.Value("data").(Data).Article.Text, "\n") {
+					if len(strings.Split(v, " ")) >= DEFAULT_SPAN_THRESHOLD {
+						block += v + "\n"
+					}
+				}
+
+				return block, nil
+			},
+		},
+		"text_spans_block": &graphql.Field{
+			Type: graphql.String,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				block := ""
+
+				for _, v := range strings.Split(p.Context.Value("data").(Data).Article.Text, "\n") {
+					if len(strings.Split(v, " ")) >= DEFAULT_SPAN_THRESHOLD {
+						block += v
+					}
+				}
+
+				return block, nil
 			},
 		},
 	},
