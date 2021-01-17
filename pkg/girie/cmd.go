@@ -2,6 +2,7 @@ package girie
 
 import (
 	"context"
+	"encoding/base64"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/graphql-go/graphql"
@@ -115,6 +116,19 @@ func executeQuery(c *gin.Context) {
 			c.JSON(http.StatusBadRequest, e)
 			return
 		}
+	} else {
+		b, err := base64.StdEncoding.DecodeString(html)
+		html = string(b)
+
+		if err != nil {
+			e := core.Error{
+				Code:        http.StatusBadRequest,
+				Description: "Cannot decode HTML body.",
+				Error:       err.Error(),
+			}
+			c.JSON(http.StatusBadRequest, e)
+			return
+		}
 	}
 
 	// Extract main article from HTML.
@@ -198,12 +212,13 @@ func RunApp() {
 
 	router := gin.New()
 	router.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
-		return fmt.Sprintf("INFO[%s] %s %s %s %d %s \"%s\" %s\n",
+		return fmt.Sprintf("INFO[%s] %s %s %s %d %d %s \"%s\" %s\n",
 			param.TimeStamp.Format(core.DEFAULT_LOG_TIME_FORMAT),
 			param.Method,
 			param.Path,
 			param.Request.Proto,
 			param.StatusCode,
+			param.BodySize,
 			param.Latency,
 			param.Request.UserAgent(),
 			param.ErrorMessage,

@@ -20,8 +20,8 @@
 
 ```shell script
 # start daemon
-user@localhost ~ $ docker run --name girie -ti --rm docker.io/livelace/girie:v1.0.0
-INFO[16.01.2021 11:38:59.101] girie v1.0.0      
+user@localhost ~ $ docker run --name girie -ti --rm docker.io/livelace/girie:v1.1.0
+INFO[16.01.2021 11:38:59.101] girie v1.1.0      
 WARN[16.01.2021 11:38:59.102] config error       error="Config File \"config.toml\" Not Found in \"[/etc/girie]\""
 INFO[16.01.2021 11:38:59.102] listen :8080 
 
@@ -56,7 +56,7 @@ user@localhost ~ $ docker exec girie curl --location --request POST 'http://127.
 # url: http://127.0.0.1:8080/?timeout=2
 # timeout = 2
 
-# env: GIRIE_USER_AGENT="girie v1.0.0"
+# env: GIRIE_USER_AGENT="girie v1.1.0"
 # url: http://127.0.0.1:8080/?user_agent="curl 3000"
-# user_agent = "girie v1.0.0"
+# user_agent = "girie v1.1.0"
 ```
