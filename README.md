@@ -19,12 +19,13 @@
 ### Quick start:
 
 ```shell script
-# start daemon
+# Start daemon
 user@localhost ~ $ docker run --name girie -ti --rm docker.io/livelace/girie:v1.2.0
 INFO[16.01.2021 11:38:59.101] girie v1.2.0      
 WARN[16.01.2021 11:38:59.102] config error       error="Config File \"config.toml\" Not Found in \"[/etc/girie]\""
 INFO[16.01.2021 11:38:59.102] listen :8080 
 
+# Get API IP.
 SERVER=`docker inspect -f "{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}" girie`
 
 
