@@ -4,7 +4,7 @@ type Article struct {
 	HTML      string   `json:"html"`
 	Images    []string `json:"images"`
 	Text      string   `json:"text"`
-	TextItems []string `json:"text_items"`
+	TextSpans []string `json:"text_spans"`
 }
 
 type Data struct {
