@@ -2,7 +2,7 @@ package core
 
 const (
 	APP_NAME    = "girie"
-	APP_VERSION = "v1.1.0"
+	APP_VERSION = "v1.2.0"
 
 	DEFAULT_ETC_PATH        = "/etc/girie"
 	DEFAULT_LOG_TIME_FORMAT = "02.01.2006 15:04:05.000"
@@ -10,7 +10,7 @@ const (
 	DEFAULT_PROXY           = ""
 	DEFAULT_RETRY           = 2
 	DEFAULT_SPAN_THRESHOLD  = 10
-	DEFAULT_TIMEOUT         = 3
+	DEFAULT_TIMEOUT         = 10
 	DEFAULT_USER_AGENT      = APP_NAME + " " + APP_VERSION
 
 	LOG_CONFIG_ERROR = "config error"

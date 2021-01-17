@@ -20,15 +20,44 @@
 
 ```shell script
 # start daemon
-user@localhost ~ $ docker run --name girie -ti --rm docker.io/livelace/girie:v1.1.0
-INFO[16.01.2021 11:38:59.101] girie v1.1.0      
+user@localhost ~ $ docker run --name girie -ti --rm docker.io/livelace/girie:v1.2.0
+INFO[16.01.2021 11:38:59.101] girie v1.2.0      
 WARN[16.01.2021 11:38:59.102] config error       error="Config File \"config.toml\" Not Found in \"[/etc/girie]\""
 INFO[16.01.2021 11:38:59.102] listen :8080 
 
 # execute query
-user@localhost ~ $ docker exec girie curl --location --request POST 'http://127.0.0.1:8080/?retry=3&timeout=3' \
+QUERY=`cat << EOF
+{
+    "query": "{
+        data(url: \"https://iz.ru/1091344/2020-11-24/effektivnost-vaktciny-sputnik-v-prevysila-95\") {
+            article{
+                images{alt,src},
+                text,
+                text_spans,
+                text_spans_append,
+                text_spans_block,
+            },
+            html,
+            url,
+            jsonld,
+            microdata,
+            opengraph,
+            page{
+                images{alt,src},
+                text
+            }
+            rdfa
+        }
+    }"
+}
+EOF
+`
+
+QUERY=`echo $QUERY | tr -d " \n"`
+
+user@localhost ~ $ docker exec girie curl --location --request POST 'http://127.0.0.1:8080/api/?retry=3&timeout=3' \
 --header 'Content-Type: application/json' \
---data-raw '{"query":"{data(url:\"https://iz.ru/1091344/2020-11-24/effektivnost-vaktciny-sputnik-v-prevysila-95\"){html,url,jsonld,microdata,opengraph,rdfa,article{images{alt,src},text},page{images{alt,src},text}}}"}' | jq  
+--data-raw "${QUERY}" | jq  
 ```
 
 ### Config example:
@@ -45,18 +74,18 @@ user@localhost ~ $ docker exec girie curl --location --request POST 'http://127.
 # listen = ":8080"
 
 # env: GIRIE_PROXY="http://127.0.0.1:3128"
-# url: http://127.0.0.1:8080/?proxy="http://127.0.0.1:3128"
+# url: http://127.0.0.1:8080/api/?proxy="http://127.0.0.1:3128"
 # proxy = "http://127.0.0.1:3128"
 
 # env: GIRIE_RETRY=2
-# url: http://127.0.0.1:8080/?retry=2
+# url: http://127.0.0.1:8080/api/?retry=2
 # retry = 2
 
 # env: GIRIE_TIMEOUT=2
-# url: http://127.0.0.1:8080/?timeout=2
+# url: http://127.0.0.1:8080/api/?timeout=2
 # timeout = 2
 
-# env: GIRIE_USER_AGENT="girie v1.1.0"
-# url: http://127.0.0.1:8080/?user_agent="curl 3000"
-# user_agent = "girie v1.1.0"
+# env: GIRIE_USER_AGENT="girie v1.2.0"
+# url: http://127.0.0.1:8080/api/?user_agent="curl 3000"
+# user_agent = "girie v1.2.0"
 ```

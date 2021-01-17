@@ -39,14 +39,33 @@ func configMiddleware(v *viper.Viper) gin.HandlerFunc {
 
 // Query execution.
 func executeQuery(c *gin.Context) {
-	var p core.PostData
+	var p core.InputData
 
 	// Derive query body from GET/POST.
 	if c.Request.Method == "GET" {
-		p.Query, _ = c.GetQuery("query")
+		var b bool
+		p.Query, b = c.GetQuery("query")
+		if !b {
+			e := core.Error{
+				Code:        http.StatusBadRequest,
+				Description: "Request must contain query parameter.",
+				Error:       "not enough data",
+			}
+			c.JSON(http.StatusBadRequest, e)
+			return
+		}
 
 	} else if c.Request.Method == "POST" {
-		_ = c.ShouldBind(&p)
+		err := c.BindJSON(&p)
+		if err != nil {
+			e := core.Error{
+				Code:        http.StatusBadRequest,
+				Description: "Cannot parse JSON data.",
+				Error:       err.Error(),
+			}
+			c.JSON(http.StatusBadRequest, e)
+			return
+		}
 
 	} else {
 		e := core.Error{
@@ -63,7 +82,7 @@ func executeQuery(c *gin.Context) {
 	if err != nil {
 		e := core.Error{
 			Code:        http.StatusInternalServerError,
-			Description: "Error during query arguments extraction.",
+			Description: "Cannot extract any query arguments (html, url)",
 			Error:       err.Error(),
 		}
 		c.JSON(http.StatusInternalServerError, e)
@@ -75,7 +94,7 @@ func executeQuery(c *gin.Context) {
 	if len(html) == 0 && len(url) == 0 {
 		e := core.Error{
 			Code:        http.StatusBadRequest,
-			Description: "Arguments must be provided (html or url). Request must not be empty.",
+			Description: "Request must not be empty. Query arguments must be provided (html, url).",
 			Error:       "not enough data",
 		}
 		c.JSON(http.StatusBadRequest, e)
@@ -84,7 +103,7 @@ func executeQuery(c *gin.Context) {
 
 	// "url" has priority over "html".
 	if len(url) > 0 {
-		// Get connection options.
+		// Get options for page fetching.
 		var proxy string
 		configProxy := c.GetString("proxy")
 		queryProxy := c.Query("proxy")
@@ -95,6 +114,7 @@ func executeQuery(c *gin.Context) {
 		}
 
 		retry := core.GetInt(c.Query("retry"), c.GetInt("retry"))
+
 		timeout := core.GetInt(c.Query("timeout"), c.GetInt("timeout"))
 
 		var userAgent string
@@ -147,7 +167,7 @@ func executeQuery(c *gin.Context) {
 	if err != nil {
 		e := core.Error{
 			Code:        http.StatusInternalServerError,
-			Description: fmt.Sprintf("Cannot extract main article for URL: %s", url),
+			Description: "Cannot extract main article",
 			Error:       err.Error(),
 		}
 		c.JSON(http.StatusInternalServerError, e)
@@ -157,7 +177,7 @@ func executeQuery(c *gin.Context) {
 	if distillHTML == nil || distillText == nil {
 		e := core.Error{
 			Code:        http.StatusInternalServerError,
-			Description: fmt.Sprintf("Cannot extract main article for URL: %s", url),
+			Description: "Cannot extract main article",
 			Error:       "null data",
 		}
 		c.JSON(http.StatusInternalServerError, e)
@@ -190,7 +210,7 @@ func executeQuery(c *gin.Context) {
 	if result.HasErrors() {
 		e := core.Error{
 			Code:        http.StatusBadRequest,
-			Description: "Cannot execute GraphQL query.",
+			Description: "Cannot execute query.",
 			Error:       result.Errors,
 		}
 		c.JSON(http.StatusBadRequest, e)
@@ -226,7 +246,7 @@ func RunApp() {
 	}))
 	router.Use(gin.Recovery())
 	router.Use(configMiddleware(config))
-	router.Any("/", executeQuery)
+	router.Any("/api", executeQuery)
 
 	log.Infof("listen %s", config.GetString(core.VIPER_DEFAULT_LISTEN))
 

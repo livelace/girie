@@ -38,7 +38,7 @@ type Page struct {
 	Text   string   `json:"text"`
 }
 
-type PostData struct {
+type InputData struct {
 	Query     string                 `json:"query"`
 	Operation string                 `json:"operation"`
 	Variables map[string]interface{} `json:"variables"`
