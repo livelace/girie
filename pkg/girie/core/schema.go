@@ -2,6 +2,7 @@ package core
 
 import (
 	"github.com/graphql-go/graphql"
+	"strings"
 )
 
 var articleType = graphql.NewObject(graphql.ObjectConfig{
@@ -25,40 +26,18 @@ var articleType = graphql.NewObject(graphql.ObjectConfig{
 				return p.Context.Value("data").(Data).Article.Text, nil
 			},
 		},
-	},
-})
+		"text_spans": &graphql.Field{
+			Type: graphql.NewList(graphql.String),
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				spans := make([]string, 0)
 
-var imageType = graphql.NewObject(graphql.ObjectConfig{
-	Name: "Image",
-	Fields: graphql.Fields{
-		"alt": &graphql.Field{
-			Type: graphql.String,
-		},
-		"src": &graphql.Field{
-			Type: graphql.String,
-		},
-	},
-})
+				for _, v := range strings.Split(p.Context.Value("data").(Data).Article.Text, "\n") {
+					if len(strings.Split(v, " ")) >= 10 {
+						spans = append(spans, v)
+					}
+				}
 
-var pageType = graphql.NewObject(graphql.ObjectConfig{
-	Name: "Page",
-	Fields: graphql.Fields{
-		"html": &graphql.Field{
-			Type: graphql.String,
-			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				return p.Context.Value("data").(Data).Page.HTML, nil
-			},
-		},
-		"images": &graphql.Field{
-			Type: graphql.NewList(imageType),
-			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				return ExtractImages(p.Context.Value("data").(Data).Page.HTML), nil
-			},
-		},
-		"text": &graphql.Field{
-			Type: graphql.String,
-			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				return SanitizeHTMLTags(p.Context.Value("data").(Data).Page.HTML), nil
+				return spans, nil
 			},
 		},
 	},
@@ -117,6 +96,51 @@ var dataType = graphql.NewObject(graphql.ObjectConfig{
 		},
 		"page": &graphql.Field{
 			Type: pageType,
+		},
+	},
+})
+
+var imageType = graphql.NewObject(graphql.ObjectConfig{
+	Name: "Image",
+	Fields: graphql.Fields{
+		"alt": &graphql.Field{
+			Type: graphql.String,
+		},
+		"src": &graphql.Field{
+			Type: graphql.String,
+		},
+	},
+})
+
+var pageType = graphql.NewObject(graphql.ObjectConfig{
+	Name: "Page",
+	Fields: graphql.Fields{
+		"html": &graphql.Field{
+			Type: graphql.String,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				return p.Context.Value("data").(Data).Page.HTML, nil
+			},
+		},
+		"images": &graphql.Field{
+			Type: graphql.NewList(imageType),
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				return ExtractImages(p.Context.Value("data").(Data).Page.HTML), nil
+			},
+		},
+		"text": &graphql.Field{
+			Type: graphql.String,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				return SanitizeHTMLTags(p.Context.Value("data").(Data).Page.HTML), nil
+			},
+		},
+	},
+})
+
+var textItemType = graphql.NewObject(graphql.ObjectConfig{
+	Name: "TextItem",
+	Fields: graphql.Fields{
+		"span": &graphql.Field{
+			Type: graphql.String,
 		},
 	},
 })

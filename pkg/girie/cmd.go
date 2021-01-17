@@ -74,7 +74,7 @@ func executeQuery(c *gin.Context) {
 	if len(html) == 0 && len(url) == 0 {
 		e := core.Error{
 			Code:        http.StatusBadRequest,
-			Description: "1. Arguments must be provided: html OR url. 2. Request must not be empty.",
+			Description: "Arguments must be provided (html or url). Request must not be empty.",
 			Error:       "not enough data",
 		}
 		c.JSON(http.StatusBadRequest, e)
@@ -119,7 +119,8 @@ func executeQuery(c *gin.Context) {
 
 	// Extract main article from HTML.
 	distillHTML, errHTML := distiller.ApplyForReader(strings.NewReader(html), nil)
-	distillText, errText := distiller.ApplyForReader(strings.NewReader(html), &distiller.Options{ExtractTextOnly: true})
+	distillText, errText := distiller.ApplyForReader(strings.NewReader(html),
+		&distiller.Options{ExtractTextOnly: true, SkipPagination: true})
 
 	if errHTML != nil {
 		err = errHTML

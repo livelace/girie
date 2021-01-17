@@ -1,9 +1,10 @@
 package core
 
 type Article struct {
-	HTML   string   `json:"html"`
-	Images []string `json:"images"`
-	Text   string   `json:"text"`
+	HTML      string   `json:"html"`
+	Images    []string `json:"images"`
+	Text      string   `json:"text"`
+	TextItems []string `json:"text_items"`
 }
 
 type Data struct {
