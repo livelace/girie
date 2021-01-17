@@ -31,7 +31,7 @@ SERVER=`docker inspect -f "{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end
 
 # GET + URL:
 user@localhost ~ $ docker exec girie curl -s -L -g --request GET \
-'http://127.0.0.1:8080/api/?query={data(url:"https://iz.ru/1091344/2020-11-24/effektivnost-vaktciny-sputnik-v-prevysila-95"){article{text_spans_block}}}' | jq  
+'http://127.0.0.1:8080/api/?query={data(url:"https://iz.ru/1091344/2020-11-24/effektivnost-vaktciny-sputnik-v-prevysila-95"){article{text_spans,text_spans_block}}}' | jq  
 
 
 # POST + URL:
