@@ -83,7 +83,7 @@ user@localhost ~ $ docker exec girie curl --location --request POST 'http://127.
 
 # env: GIRIE_TIMEOUT=2
 # url: http://127.0.0.1:8080/api/?timeout=2
-# timeout = 2
+# timeout = 10
 
 # env: GIRIE_USER_AGENT="girie v1.2.0"
 # url: http://127.0.0.1:8080/api/?user_agent="curl 3000"
