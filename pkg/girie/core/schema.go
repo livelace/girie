@@ -27,13 +27,13 @@ var articleType = graphql.NewObject(graphql.ObjectConfig{
 			},
 		},
 		"text_spans": &graphql.Field{
-			Type: graphql.NewList(graphql.String),
+			Type: graphql.NewList(textSpanType),
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				spans := make([]string, 0)
+				spans := make([]*TextSpan, 0)
 
 				for _, v := range strings.Split(p.Context.Value("data").(Data).Article.Text, "\n") {
 					if len(strings.Split(v, " ")) >= DEFAULT_SPAN_THRESHOLD {
-						spans = append(spans, strings.TrimSpace(v))
+						spans = append(spans, GetTextSpan(&v))
 					}
 				}
 
@@ -41,7 +41,7 @@ var articleType = graphql.NewObject(graphql.ObjectConfig{
 			},
 		},
 		"text_spans_append": &graphql.Field{
-			Type: graphql.String,
+			Type: textSpanType,
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 				block := ""
 
@@ -51,11 +51,11 @@ var articleType = graphql.NewObject(graphql.ObjectConfig{
 					}
 				}
 
-				return block, nil
+				return GetTextSpan(&block), nil
 			},
 		},
 		"text_spans_block": &graphql.Field{
-			Type: graphql.String,
+			Type: textSpanType,
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 				block := ""
 
@@ -65,7 +65,7 @@ var articleType = graphql.NewObject(graphql.ObjectConfig{
 					}
 				}
 
-				return strings.TrimSpace(block), nil
+				return GetTextSpan(&block), nil
 			},
 		},
 	},
@@ -134,8 +134,14 @@ var imageType = graphql.NewObject(graphql.ObjectConfig{
 		"alt": &graphql.Field{
 			Type: graphql.String,
 		},
+		"height": &graphql.Field{
+			Type: graphql.Int,
+		},
 		"src": &graphql.Field{
 			Type: graphql.String,
+		},
+		"width": &graphql.Field{
+			Type: graphql.Int,
 		},
 	},
 })
@@ -164,11 +170,17 @@ var pageType = graphql.NewObject(graphql.ObjectConfig{
 	},
 })
 
-var textItemType = graphql.NewObject(graphql.ObjectConfig{
-	Name: "TextItem",
+var textSpanType = graphql.NewObject(graphql.ObjectConfig{
+	Name: "TextSpan",
 	Fields: graphql.Fields{
-		"span": &graphql.Field{
+		"lang": &graphql.Field{
 			Type: graphql.String,
+		},
+		"text": &graphql.Field{
+			Type: graphql.String,
+		},
+		"tokens_amount": &graphql.Field{
+			Type: graphql.Int,
 		},
 	},
 })

@@ -4,6 +4,7 @@ go 1.15
 
 require (
 	github.com/PuerkitoBio/goquery v1.6.1
+	github.com/abadojack/whatlanggo v1.0.1
 	github.com/enbis/rdfa v0.0.5
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-resty/resty/v2 v2.4.0

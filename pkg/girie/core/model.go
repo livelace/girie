@@ -27,9 +27,17 @@ type Error struct {
 	Error       interface{}
 }
 
+type InputData struct {
+	Query     string                 `json:"query"`
+	Operation string                 `json:"operation"`
+	Variables map[string]interface{} `json:"variables"`
+}
+
 type Image struct {
-	Alt string `json:"alt"`
-	Src string `json:"src"`
+	Alt    string `json:"alt"`
+	Height int    `json:"height"`
+	Src    string `json:"src"`
+	Width  int    `json:"width"`
 }
 
 type Page struct {
@@ -38,8 +46,8 @@ type Page struct {
 	Text   string   `json:"text"`
 }
 
-type InputData struct {
-	Query     string                 `json:"query"`
-	Operation string                 `json:"operation"`
-	Variables map[string]interface{} `json:"variables"`
+type TextSpan struct {
+	Lang         string `json:"lang"`
+	Text         string `json:"text"`
+	TokensAmount int    `json:"tokens_amount"`
 }

@@ -3,6 +3,7 @@ package core
 import (
 	"encoding/json"
 	"github.com/PuerkitoBio/goquery"
+	"github.com/abadojack/whatlanggo"
 	"github.com/enbis/rdfa"
 	"github.com/go-resty/resty/v2"
 	sourceAST "github.com/graphql-go/graphql/language/ast"
@@ -65,14 +66,20 @@ func ExtractImages(html string) []Image {
 	if err == nil {
 		doc.Find("img").Each(func(i int, s *goquery.Selection) {
 			var alt string
+			var height string
 			var src string
+			var width string
 
 			alt, _ = s.Attr("alt")
+			height, _ = s.Attr("height")
 			src, _ = s.Attr("src")
+			width, _ = s.Attr("width")
 
 			images = append(images, Image{
-				Alt: alt,
-				Src: src,
+				Alt:    alt,
+				Height: GetInt(height, 0),
+				Src:    src,
+				Width:  GetInt(width, 0),
 			})
 		})
 	}
@@ -137,6 +144,21 @@ func GetInt(v string, d int) int {
 		return d
 	}
 	return i
+}
+
+func GetTextSpan(s *string) *TextSpan {
+	span := TextSpan{
+		Text:         strings.TrimSpace(*s),
+		TokensAmount: len(strings.Split(*s, " ")),
+	}
+
+	detect := whatlanggo.Detect(*s)
+
+	if detect.IsReliable() {
+		span.Lang = detect.Lang.Iso6391()
+	}
+
+	return &span
 }
 
 func SanitizeHTMLTags(html string) string {

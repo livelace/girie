@@ -20,8 +20,8 @@
 
 ```shell script
 # Start daemon:
-user@localhost ~ $ docker run --name girie -ti --rm docker.io/livelace/girie:v1.2.0
-INFO[16.01.2021 11:38:59.101] girie v1.2.0      
+user@localhost ~ $ docker run --name girie -ti --rm docker.io/livelace/girie:v1.3.0
+INFO[16.01.2021 11:38:59.101] girie v1.3.0      
 WARN[16.01.2021 11:38:59.102] config error       error="Config File \"config.toml\" Not Found in \"[/etc/girie]\""
 INFO[16.01.2021 11:38:59.102] listen :8080 
 
@@ -31,7 +31,7 @@ SERVER=`docker inspect -f "{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end
 
 # GET + URL:
 user@localhost ~ $ docker exec girie curl -s -L -g --request GET \
-'http://127.0.0.1:8080/api/?query={data(url:"https://iz.ru/1091344/2020-11-24/effektivnost-vaktciny-sputnik-v-prevysila-95"){article{text_spans,text_spans_block}}}' | jq  
+'http://127.0.0.1:8080/api/?query={data(url:"https://iz.ru/1091344/2020-11-24/effektivnost-vaktciny-sputnik-v-prevysila-95"){article{text_spans{lang,text,tokens_amount}}}}' | jq  
 
 
 # POST + URL:
@@ -39,8 +39,8 @@ QUERY=`cat << EOF
 {
     "query": "{
         data(url: \"https://iz.ru/1091344/2020-11-24/effektivnost-vaktciny-sputnik-v-prevysila-95\") {
-            article{
-                images{alt,src}
+            page{
+                images{alt,height,src,width}
             }
         }
     }"
@@ -63,11 +63,11 @@ QUERY=`cat << EOF
     "query": "{
         data(html: \"${BASE64}\") {
             article{
-                images{alt,src},
+                images{alt,height,src,width},
                 text,
-                text_spans,
-                text_spans_append,
-                text_spans_block,
+                text_spans{lang,text,tokens_amount},
+                text_spans_append{lang,text,tokens_amount},
+                text_spans_block{lang,text,tokens_amount},
             },
             html,
             url,
@@ -75,7 +75,7 @@ QUERY=`cat << EOF
             microdata,
             opengraph,
             page{
-                images{alt,src},
+                images{alt,height,src,width},
                 text
             }
             rdfa
@@ -118,7 +118,7 @@ curl -s -L -X POST "http://${SERVER}:8080/api/?retry=3&timeout=3" \
 # url: http://127.0.0.1:8080/api/?timeout=2
 # timeout = 10
 
-# env: GIRIE_USER_AGENT="girie v1.2.0"
+# env: GIRIE_USER_AGENT="girie v1.3.0"
 # url: http://127.0.0.1:8080/api/?user_agent="curl 3000"
-# user_agent = "girie v1.2.0"
+# user_agent = "girie v1.3.0"
 ```
