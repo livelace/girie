@@ -76,6 +76,7 @@ QUERY=`cat << EOF
             opengraph,
             page{
                 images{alt,height,src,width},
+                lang,
                 text
             }
             rdfa

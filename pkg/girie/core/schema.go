@@ -161,6 +161,12 @@ var pageType = graphql.NewObject(graphql.ObjectConfig{
 				return ExtractImages(p.Context.Value("data").(Data).Page.HTML), nil
 			},
 		},
+		"lang": &graphql.Field{
+			Type: graphql.String,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				return ExtractLang(p.Context.Value("data").(Data).Page.HTML), nil
+			},
+		},
 		"text": &graphql.Field{
 			Type: graphql.String,
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {

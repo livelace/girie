@@ -43,6 +43,7 @@ type Image struct {
 type Page struct {
 	HTML   string   `json:"html"`
 	Images []string `json:"images"`
+	Lang   string   `json:"lang"`
 	Text   string   `json:"text"`
 }
 

@@ -92,6 +92,11 @@ func ExtractJSONLd(html string) string {
 	return doc.Find("script[type=\"application/ld+json\"]").Text()
 }
 
+func ExtractLang(html string) string {
+	doc, _ := goquery.NewDocumentFromReader(strings.NewReader(html))
+	return doc.Find("html").AttrOr("lang", "")
+}
+
 func ExtractMicrodata(html string, url string) string {
 	baseUrl, _ := u.Parse(url)
 	p := microdata.NewParser(strings.NewReader(html), baseUrl)
