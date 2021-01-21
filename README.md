@@ -63,6 +63,7 @@ QUERY=`cat << EOF
     "query": "{
         data(html: \"${BASE64}\") {
             article{
+                html,
                 images{alt,height,src,width},
                 text,
                 text_spans{lang,text,tokens_amount},
