@@ -74,56 +74,23 @@ var articleType = graphql.NewObject(graphql.ObjectConfig{
 var dataType = graphql.NewObject(graphql.ObjectConfig{
 	Name: "Data",
 	Fields: graphql.Fields{
+		"article": &graphql.Field{
+			Type: articleType,
+		},
 		"html": &graphql.Field{
 			Type: graphql.String,
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 				return p.Context.Value("data").(Data).HTML, nil
 			},
 		},
+		"page": &graphql.Field{
+			Type: pageType,
+		},
 		"url": &graphql.Field{
 			Type: graphql.String,
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 				return p.Context.Value("data").(Data).URL, nil
 			},
-		},
-
-		"jsonld": &graphql.Field{
-			Type: graphql.String,
-			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				return ExtractJSONLd(p.Context.Value("data").(Data).Page.HTML), nil
-			},
-		},
-		"microdata": &graphql.Field{
-			Type: graphql.String,
-			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				return ExtractMicrodata(p.Context.Value("data").(Data).Page.HTML,
-					p.Context.Value("data").(Data).URL), nil
-			},
-		},
-		"opengraph": &graphql.Field{
-			Type: graphql.String,
-			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				return ExtractOpengraph(p.Context.Value("data").(Data).Page.HTML), nil
-			},
-		},
-		"rdfa": &graphql.Field{
-			Type: graphql.String,
-			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				return ExtractRDFA(p.Context.Value("data").(Data).Page.HTML), nil
-			},
-		},
-		"title": &graphql.Field{
-			Type: graphql.String,
-			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				return ExtractTitle(p.Context.Value("data").(Data).Page.HTML), nil
-			},
-		},
-
-		"article": &graphql.Field{
-			Type: articleType,
-		},
-		"page": &graphql.Field{
-			Type: pageType,
 		},
 	},
 })
@@ -155,6 +122,12 @@ var pageType = graphql.NewObject(graphql.ObjectConfig{
 				return p.Context.Value("data").(Data).Page.HTML, nil
 			},
 		},
+		"jsonld": &graphql.Field{
+			Type: graphql.String,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				return ExtractJSONLd(p.Context.Value("data").(Data).Page.HTML), nil
+			},
+		},
 		"images": &graphql.Field{
 			Type: graphql.NewList(imageType),
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
@@ -167,10 +140,35 @@ var pageType = graphql.NewObject(graphql.ObjectConfig{
 				return ExtractLang(p.Context.Value("data").(Data).Page.HTML), nil
 			},
 		},
+		"microdata": &graphql.Field{
+			Type: graphql.String,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				return ExtractMicrodata(p.Context.Value("data").(Data).Page.HTML,
+					p.Context.Value("data").(Data).URL), nil
+			},
+		},
+		"opengraph": &graphql.Field{
+			Type: graphql.String,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				return ExtractOpengraph(p.Context.Value("data").(Data).Page.HTML), nil
+			},
+		},
+		"rdfa": &graphql.Field{
+			Type: graphql.String,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				return ExtractRDFA(p.Context.Value("data").(Data).Page.HTML), nil
+			},
+		},
 		"text": &graphql.Field{
 			Type: graphql.String,
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 				return SanitizeHTMLTags(p.Context.Value("data").(Data).Page.HTML), nil
+			},
+		},
+		"title": &graphql.Field{
+			Type: graphql.String,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				return ExtractTitle(p.Context.Value("data").(Data).Page.HTML), nil
 			},
 		},
 	},

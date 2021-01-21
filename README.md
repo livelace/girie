@@ -71,15 +71,17 @@ QUERY=`cat << EOF
             },
             html,
             url,
-            jsonld,
-            microdata,
-            opengraph,
             page{
+                html,
+                jsonld,
                 images{alt,height,src,width},
                 lang,
-                text
+                microdata,
+                opengraph,
+                rdfa,
+                text,
+                title
             }
-            rdfa
         }
     }"
 }
