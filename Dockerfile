@@ -18,10 +18,8 @@ RUN             git clone --depth 1 --branch "$VERSION" "$GIRIE_URL" "$GIRIE_TEM
                 cp "girie" "$GIRIE_BIN" && \
                 rm -rf "/root/go" "$GIRIE_TEMP"
 
-RUN             useradd -m -u 1000 -s "/bin/bash" "girie"
+USER            "user"
 
-USER            "girie"
-
-WORKDIR         "/home/girie"
+WORKDIR         "/home/user"
 
 CMD             ["/usr/local/bin/girie"]

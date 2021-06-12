@@ -247,6 +247,12 @@ func RunApp() {
 	router.Use(gin.Recovery())
 	router.Use(configMiddleware(config))
 	router.Any("/api", executeQuery)
+	router.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"Code":   200,
+			"Status": "healthy",
+		})
+	})
 
 	log.Infof("listen %s", config.GetString(core.VIPER_DEFAULT_LISTEN))
 
