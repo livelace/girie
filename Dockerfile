@@ -1,25 +1,11 @@
-FROM            docker.io/livelace/gentoo:latest
+FROM            harbor-core.k8s-2.livelace.ru/infra/service-core:latest
 
-ARG             VERSION
+COPY            "girie" "/usr/local/bin/girie"
 
-ENV             GIRIE_BIN="/usr/local/bin/girie"
-ENV             GIRIE_TEMP="/tmp/girie"
-ENV             GIRIE_URL="https://github.com/livelace/girie"
-
-# portage packages.
-RUN             emerge -G -q \
-                dev-lang/go && \
-                rm -rf "/usr/portage/packages"
-
-# build application.
-RUN             git clone --depth 1 --branch "$VERSION" "$GIRIE_URL" "$GIRIE_TEMP" && \
-                cd "$GIRIE_TEMP" && \
-                go build "github.com/livelace/girie/cmd/girie" && \
-                cp "girie" "$GIRIE_BIN" && \
-                rm -rf "/root/go" "$GIRIE_TEMP"
+# user and group.
+RUN             groupadd -g 1000 "user" && \
+                useradd -l -u 1000 -g "user" -s "/bin/bash" -m "user"
 
 USER            "user"
-
-WORKDIR         "/home/user"
 
 CMD             ["/usr/local/bin/girie"]
