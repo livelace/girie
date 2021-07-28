@@ -6,7 +6,7 @@ libraries {
         options = "github.com/livelace/girie/cmd/girie"
     }
     k8s {
-        image = "harbor-core.k8s-2.livelace.ru/dev/gobuild:latest"
+        build_image = "harbor-core.k8s-2.livelace.ru/dev/gobuild:latest"
     }
     kaniko {
         destination = "data/girie:latest"
