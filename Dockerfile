@@ -2,7 +2,7 @@ FROM            docker.io/livelace/gentoo:latest
 
 ENV             GIRIE_BIN="/usr/local/bin/girie"
 
-COPY            "source/girie" $GIRIE_BIN
+COPY            "work/girie" $GIRIE_BIN
 
 USER            "user"
 
