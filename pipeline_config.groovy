@@ -21,7 +21,7 @@ libraries {
     }
     mattermost
     nexus {
-        source = "girie"
+        source = 'girie-${VERSION}.appimage'
         destination = 'dists-internal/girie/girie-${VERSION}'
     }
     version
