@@ -1,4 +1,8 @@
 libraries {
+    appimage {
+        source = "girie"
+        destination = 'girie-${VERSION}.appimage'
+    }
     git {
         repo_url = "https://github.com/livelace/girie.git"
     }
@@ -10,6 +14,7 @@ libraries {
     }
     k8s_build {
         image = "harbor-core.k8s-2.livelace.ru/dev/gobuild:latest"
+        privileged = true
     }
     kaniko {
         destination = "data/girie:latest"
