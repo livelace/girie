@@ -24,5 +24,6 @@ libraries {
         source = 'girie-${VERSION}.appimage'
         destination = 'dists-internal/girie/girie-${VERSION}'
     }
+    sonarqube
     version
 }
