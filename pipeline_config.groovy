@@ -3,6 +3,7 @@ libraries {
         source = "girie"
         destination = 'girie-${VERSION}.appimage'
     }
+    dependency_check
     git {
         repo_url = "https://github.com/livelace/girie.git"
     }
