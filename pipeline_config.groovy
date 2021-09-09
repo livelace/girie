@@ -4,7 +4,10 @@ libraries {
         destination = 'girie-${VERSION}.appimage'
     }
     dependency_check
-    dependency_track
+    dependency_track {
+        project = "girie"
+        version = "latest"
+    }
     git {
         repo_url = "https://github.com/livelace/girie.git"
     }
