@@ -19,7 +19,7 @@ libraries {
     }
     harbor_scan {
         artifact = "data/girie:latest"
-        severity = "low"
+        severity = "medium"
     }
     k8s_build {
         image = "harbor-core.k8s-2.livelace.ru/dev/gobuild:latest"
