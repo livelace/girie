@@ -14,8 +14,12 @@ libraries {
     go {
         options = "github.com/livelace/girie/cmd/girie"
     }
-    harbor {
+    harbor_replicate {
         policy = "girie"
+    }
+    harbor_scan {
+        artifact = "data/girie:latest"
+        severity = "low"
     }
     k8s_build {
         image = "harbor-core.k8s-2.livelace.ru/dev/gobuild:latest"
