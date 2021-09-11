@@ -17,10 +17,6 @@ libraries {
     harbor_replicate {
         policy = "girie"
     }
-    harbor_scan {
-        artifact = "data/girie:latest"
-        severity = "medium"
-    }
     k8s_build {
         image = "harbor-core.k8s-2.livelace.ru/dev/gobuild:latest"
         privileged = true
