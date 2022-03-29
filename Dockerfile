@@ -1,11 +1,5 @@
-FROM            docker.io/livelace/gentoo:latest
+FROM            scratch
 
-ENV             GIRIE_BIN="/usr/local/bin/girie"
-
-COPY            "work/girie" $GIRIE_BIN
-
-USER            "user"
-
-WORKDIR         "/home/user"
+ADD             "work/dracut/rootfs.tar" "/"
 
 CMD             ["/usr/local/bin/girie"]
