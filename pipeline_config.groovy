@@ -13,6 +13,7 @@ libraries {
         project = "${APP_NAME}"
         version = env.VERSION
     }
+    dracut
     git {
         repo_url = "${APP_REPO}"
         repo_branch = env.VERSION
@@ -25,6 +26,9 @@ libraries {
     }
     k8s_build {
         image = "harbor-core.k8s-2.livelace.ru/dev/gobuild:latest"
+
+        uid = "0"
+        gid = "0"
         privileged = true
     }
     kaniko {

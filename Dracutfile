@@ -1,0 +1,16 @@
+#!/bin/bash
+
+check() {
+    require_binaries "$WORK_DIR/girie" || return 1
+    return 255
+}
+
+depends() {
+    echo "base debug"
+    return 0
+}
+
+install() {
+    # binaries.
+    inst "$WORK_DIR/girie" "/usr/local/bin/girie"
+}
