@@ -20,6 +20,7 @@ libraries {
     }
     go {
         options = "github.com/livelace/girie/cmd/girie"
+        test = false
     }
     harbor_replicate {
         policy = "${APP_NAME}"
