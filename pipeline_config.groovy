@@ -19,7 +19,8 @@ libraries {
         repo_branch = env.VERSION
     }
     go {
-        options = "github.com/livelace/girie/cmd/girie"
+        options = "-ldflags=\"-X 'github.com/livelace/girie/pkg/girie/core.APP_VERSION=${APP_VERSION}'\" " +
+            "-tags dynamic github.com/livelace/girie/cmd/girie"
         test = false
     }
     harbor_replicate {

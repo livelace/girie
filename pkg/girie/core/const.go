@@ -1,9 +1,11 @@
 package core
 
-const (
+var (
 	APP_NAME    = "girie"
-	APP_VERSION = "v1.5.0"
+	APP_VERSION = "devel"
+)
 
+const (
 	DEFAULT_ETC_PATH        = "/etc/girie"
 	DEFAULT_LOG_TIME_FORMAT = "02.01.2006 15:04:05.000"
 	DEFAULT_LISTEN          = ":8080"
