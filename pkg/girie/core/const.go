@@ -1,8 +1,9 @@
 package core
 
 var (
-	APP_NAME    = "girie"
-	APP_VERSION = "devel"
+	APP_NAME           = "girie"
+	APP_VERSION        = "devel"
+	DEFAULT_USER_AGENT = APP_NAME + " " + APP_VERSION
 )
 
 const (
@@ -13,7 +14,6 @@ const (
 	DEFAULT_RETRY           = 2
 	DEFAULT_SPAN_THRESHOLD  = 10
 	DEFAULT_TIMEOUT         = 10
-	DEFAULT_USER_AGENT      = APP_NAME + " " + APP_VERSION
 
 	LOG_CONFIG_ERROR = "config error"
 
