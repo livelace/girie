@@ -28,10 +28,6 @@ libraries {
     }
     k8s_build {
         image = "harbor-core.k8s-2.livelace.ru/dev/gobuild:latest"
-
-        uid = "0"
-        gid = "0"
-        privileged = true
     }
     kaniko {
         destination = "data/${APP_NAME}:${IMAGE_TAG}"
