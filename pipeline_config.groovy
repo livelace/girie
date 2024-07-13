@@ -8,11 +8,11 @@ libraries {
         source = "${APP_NAME}"
         destination = "${APP_NAME}-${APP_VERSION}.appimage"
     }
-    dependency_check
-    dependency_track {
-        project = "${APP_NAME}"
-        version = env.VERSION
-    }
+    //dependency_check
+    //dependency_track {
+    //    project = "${APP_NAME}"
+    //    version = env.VERSION
+    //}
     dracut
     git {
         repo_url = "${APP_REPO}"
@@ -23,19 +23,19 @@ libraries {
             "-tags dynamic github.com/livelace/girie/cmd/girie"
         test = false
     }
-    harbor_replicate {
-        policy = "${APP_NAME}"
-    }
+    //harbor_replicate {
+    //    policy = "${APP_NAME}"
+    //}
     k8s_build {
-        image = "harbor-core.k8s-2.livelace.ru/dev/gobuild:latest"
+        image = "registry.livelace.ru/dev/girie:${IMAGE_TAG}"
     }
     kaniko {
-        destination = "data/${APP_NAME}:${IMAGE_TAG}"
+        destination = "infra/${APP_NAME}:${IMAGE_TAG}"
     }
     mattermost
     nexus {
         source = "${APP_NAME}-${APP_VERSION}.appimage"
-        destination = "dists-internal/${APP_NAME}/${APP_NAME}-${APP_VERSION}.appimage"
+        destination = "raw/${APP_NAME}/${APP_NAME}-${APP_VERSION}.appimage"
     }
-    sonarqube
+    //sonarqube
 }
